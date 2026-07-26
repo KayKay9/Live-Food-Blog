@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Live Blog — Next.js + Sanity CMS
 
-## Getting Started
+A recipe/blog website built with Next.js (App Router, TypeScript, Tailwind) and Sanity CMS as the headless content backend.
 
-First, run the development server:
+## Project Structure
+
+- **`src/`** — Next.js app (pages, components, Sanity client)
+- **`studio-live-blog/`** — Sanity Studio (standalone, at `local`)
+
+## How Sanity Is Used
+
+- **Content schemas**: `post` (title, slug, image, categories, excerpt, body) and `category` (title, slug, image, description) — defined in `studio-live-blog/schemaTypes/`.
+- **GROQ queries**: all queries live in `src/sanity/lib/queries.ts` (posts, categories, slug lists, filtered posts by category).
+- **Sanity client**: configured in `src/sanity/client.ts`, reads `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` from `.env.local`.
+- **Image handling**: `src/components/SanityImage.tsx` renders responsive images via `@sanity/image-url`.
+- **Live preview**: `src/sanity/lib/live.ts` uses `defineLive` from `next-sanity` for real-time content updates.
+
+## How to Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Set Up Sanity From Scratch
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Create a Sanity project** at [sanity.io](https://sanity.io) and note the project ID and dataset name.
 
-## Learn More
+2. **Set environment variables** in `.env.local`:
 
-To learn more about Next.js, take a look at the following resources:
+   ```
+   NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
+   NEXT_PUBLIC_SANITY_DATASET=production
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Add CORS origin** in Sanity dashboard → API → CORS origins → add `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Authenticate & deploy schemas**:
 
-## Deploy on Vercel
+   ```bash
+   cd studio-live-blog
+   npx sanity login
+   npx sanity deploy
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Start the Studio** locally:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   cd studio-live-blog
+   npx sanity dev
+   ```
+
+6. **Add content** in the Studio (posts, categories with images).
+
+Pages will automatically fetch content from Sanity at build time and on revalidation (every 30s by default).
