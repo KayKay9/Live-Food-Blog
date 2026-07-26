@@ -1,14 +1,16 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { client } from "@/sanity/client";
 import {
   CATEGORY_BY_SLUG_QUERY,
   CATEGORY_SLUGS_QUERY,
   POSTS_BY_CATEGORY_QUERY,
+  CATEGORIES_QUERY,
 } from "@/sanity/lib/queries";
 import { type SanityDocument, defineQuery } from "next-sanity";
-import { SanityImage } from "@/components/SanityImage";
 import { PostCard } from "@/components/PostCard";
+import { PageBanner } from "@/components/PageBanner";
+import { CategoriesBox } from "@/components/CategoriesBox";
+import { Newsletter } from "@/components/Newsletter";
 
 const options = { next: { revalidate: 30 } };
 
@@ -32,11 +34,12 @@ export default async function CategoryPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [category, catId] = await Promise.all([
+  const [category, catId, allCategories] = await Promise.all([
     client.fetch<SanityDocument | null>(CATEGORY_WITH_IMAGE, { slug }, options),
     client
       .fetch<{ _id: string } | null>(CATEGORY_BY_SLUG_QUERY, { slug }, options)
       .then((r) => r?._id),
+    client.fetch<SanityDocument[]>(CATEGORIES_QUERY, {}, options),
   ]);
 
   if (!category) return notFound();
@@ -50,38 +53,43 @@ export default async function CategoryPage({
     : [];
 
   return (
-    <div className="flex flex-col flex-1 items-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col py-24 px-16 bg-white dark:bg-black">
-        <Link href="/" className="text-sm text-blue-600 hover:underline mb-8">
-          &larr; Back to home
-        </Link>
+    <div className="flex flex-col flex-1 bg-white">
+      <PageBanner
+        title={category.title as string}
+        subtitle={(category.description as string) || ""}
+      />
 
-        <div className="mb-12">
-          {category.mainImage && (
-            <div className="mb-6 overflow-hidden rounded-lg aspect-video">
-              <SanityImage value={category.mainImage} width={800} className="object-cover" />
+      <div className="w-full max-w-7xl mx-auto px-6 py-16">
+        <div className="flex flex-col lg:flex-row gap-12">
+          <div className="flex-1 min-w-0">
+            <div className="mb-8 flex items-center gap-4">
+              <h2 className="text-2xl font-bold text-zinc-900 flex items-center gap-3 shrink-0">
+                <span className="w-1 h-6 bg-orange-500 rounded-full" />
+                {category.title as string}
+              </h2>
+              <div className="flex-1 space-y-1">
+                <div className="h-px bg-zinc-200" />
+                <div className="h-px bg-zinc-200" />
+              </div>
             </div>
-          )}
-          <h1 className="text-3xl font-bold text-black dark:text-zinc-50">
-            {category.title as string}
-          </h1>
-          {category.description && (
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-              {category.description as string}
-            </p>
-          )}
-        </div>
 
-        {posts.length === 0 ? (
-          <p className="text-zinc-500">No posts in this category yet.</p>
-        ) : (
-          <div className="flex flex-col gap-6">
-            {posts.map((post) => (
-              <PostCard key={post._id} post={post} />
-            ))}
+            {posts.length === 0 ? (
+              <p className="text-zinc-500">No posts in this category yet.</p>
+            ) : (
+              <div className="flex flex-col gap-6">
+                {posts.map((post) => (
+                  <PostCard key={post._id} post={post} />
+                ))}
+              </div>
+            )}
           </div>
-        )}
-      </main>
+
+          <aside className="w-full lg:w-80 shrink-0">
+            <CategoriesBox categories={allCategories} />
+            <Newsletter />
+          </aside>
+        </div>
+      </div>
     </div>
   );
 }
