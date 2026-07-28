@@ -10,12 +10,13 @@ import { Newsletter } from "@/components/Newsletter";
 import { CategoriesBox } from "@/components/CategoriesBox";
 
 const options = { next: { revalidate: 30 } };
+const popularOptions = { next: { revalidate: 30, tags: ["popular-posts"] } };
 
 export default async function HomePage() {
   const [categories, posts, popularPosts] = await Promise.all([
     client.fetch<SanityDocument[]>(CATEGORIES_QUERY, {}, options),
     client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options),
-    client.fetch<SanityDocument[]>(POPULAR_POSTS_QUERY, {}, options),
+    client.fetch<SanityDocument[]>(POPULAR_POSTS_QUERY, {}, popularOptions),
   ]);
 
   return (

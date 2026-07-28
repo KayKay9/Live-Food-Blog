@@ -7,6 +7,7 @@ import { SanityImage } from "@/components/SanityImage";
 import { PageBanner } from "@/components/PageBanner";
 import { CategoriesBox } from "@/components/CategoriesBox";
 import { Newsletter } from "@/components/Newsletter";
+import { ViewTracker } from "@/components/ViewTracker";
 
 const options = { next: { revalidate: 30 } };
 
@@ -40,6 +41,7 @@ export default async function PostPage({
 
   return (
     <div className="flex flex-col flex-1 bg-white">
+      <ViewTracker postId={post._id} />
       <PageBanner
         title={post.title as string}
         subtitle={(post.excerpt as string) || ""}

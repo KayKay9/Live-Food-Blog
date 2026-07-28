@@ -14,6 +14,7 @@ A recipe/blog website built with Next.js (App Router, TypeScript, Tailwind) and 
 - **Sanity client**: configured in `src/sanity/client.ts`, reads `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` from `.env.local`.
 - **Image handling**: `src/components/SanityImage.tsx` renders responsive images via `@sanity/image-url`.
 - **Live preview**: `src/sanity/lib/live.ts` uses `defineLive` from `next-sanity` for real-time content updates.
+- **View tracking**: each blog post auto-increments a `views` counter via `POST /api/views` (uses `SANITY_WRITE_TOKEN` for write access).
 
 ## How to Run
 
@@ -33,7 +34,10 @@ Open [http://localhost:3000](http://localhost:3000).
    ```
    NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
    NEXT_PUBLIC_SANITY_DATASET=production
+   SANITY_WRITE_TOKEN=your-write-token
    ```
+
+   To create a write token: Sanity dashboard → API → Tokens → Add API token (Editor access).
 
 3. **Add CORS origin** in Sanity dashboard → API → CORS origins → add `http://localhost:3000`.
 
