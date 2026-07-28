@@ -29,3 +29,7 @@ export const CATEGORY_BY_SLUG_QUERY = defineQuery(
 export const POSTS_BY_CATEGORY_QUERY = defineQuery(
   `*[_type == "post" && defined(slug.current) && $categoryId in categories[]._ref] | order(_createdAt desc){ _id, title, slug, excerpt, publishedAt, ${CATEGORIES}, "mainImage": mainImage{ asset->{ _id, url }, alt } }`
 );
+
+export const POPULAR_POSTS_QUERY = defineQuery(
+  `*[_type == "post" && defined(slug.current)] | order(views desc)[0..3]{ _id, title, slug, excerpt, views, publishedAt, ${CATEGORIES}, "mainImage": mainImage{ asset->{ _id, url }, alt } }`
+);
