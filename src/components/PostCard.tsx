@@ -16,7 +16,7 @@ export function PostCard({ post, variant = "horizontal" }: PostCardProps) {
         href={`/${slug}`}
         className="flex flex-col group"
       >
-        <div className="aspect-[4/3] rounded-lg overflow-hidden bg-zinc-100">
+        <div className="aspect-[4/3] rounded-lg overflow-hidden bg-warm-bg">
           {post.mainImage ? (
             <SanityImage
               value={post.mainImage}
@@ -49,7 +49,7 @@ export function PostCard({ post, variant = "horizontal" }: PostCardProps) {
       href={`/${slug}`}
       className="flex gap-5 group"
     >
-      <div className="w-1/2 aspect-[4/3] shrink-0 rounded-lg overflow-hidden bg-zinc-100">
+      <div className="w-1/2 aspect-[4/3] shrink-0 rounded-lg overflow-hidden bg-warm-bg">
         {post.mainImage ? (
           <SanityImage
             value={post.mainImage}

@@ -33,3 +33,7 @@ export const POSTS_BY_CATEGORY_QUERY = defineQuery(
 export const POPULAR_POSTS_QUERY = defineQuery(
   `*[_type == "post" && defined(slug.current)] | order(coalesce(views, 0) desc)[0..3]{ _id, title, slug, excerpt, views, publishedAt, ${CATEGORIES}, "mainImage": mainImage{ asset->{ _id, url }, alt } }`
 );
+
+export const TESTIMONIALS_QUERY = defineQuery(
+  `*[_type == "testimonial"] | order(displayOrder asc){ _id, name, userType, text, image }`
+);

@@ -108,16 +108,16 @@ export default function ContactPage() {
                 Follow Us
               </h3>
               <div className="flex gap-3">
-                <a href="#" className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="Facebook">
+                <a href="#" className="w-10 h-10 bg-warm-bg rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="Facebook">
                   <FaFacebook className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="Twitter">
+                <a href="#" className="w-10 h-10 bg-warm-bg rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="Twitter">
                   <FaTwitter className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="Instagram">
+                <a href="#" className="w-10 h-10 bg-warm-bg rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="Instagram">
                   <FaInstagram className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="YouTube">
+                <a href="#" className="w-10 h-10 bg-warm-bg rounded-full flex items-center justify-center text-zinc-500 hover:bg-orange-100 hover:text-orange-600 transition-all" aria-label="YouTube">
                   <FaYoutube className="w-4 h-4" />
                 </a>
               </div>

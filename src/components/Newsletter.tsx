@@ -1,6 +1,6 @@
 export function Newsletter() {
   return (
-    <div className="mt-6 p-5 rounded-xl bg-zinc-50 border border-zinc-200">
+    <div className="mt-6 p-5 rounded-xl bg-warm-bg border border-zinc-200">
       <h3 className="text-base font-bold text-zinc-900">
         Never Miss A Post!
       </h3>
